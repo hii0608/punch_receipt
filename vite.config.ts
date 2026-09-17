@@ -3,6 +3,10 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath, URL } from 'node:url';
 
+// A standalone build (npm run build:standalone) drops the service worker so the
+// bundle can be dropped onto any static host or preview sandbox as plain files.
+const standalone = process.env.VITE_TARGET === 'standalone';
+
 export default defineConfig({
   base: './',
   resolve: {
@@ -10,9 +14,9 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    VitePWA({
+    ...(standalone ? [] : [VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['fonts/*.woff2', 'icons/*.png'],
+      includeAssets: ['icons/*.png'],
       manifest: {
         name: 'Punch Receipt',
         short_name: 'Punch',
@@ -32,7 +36,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,woff2,png,svg}'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
       },
-    }),
+    })]),
   ],
   server: { host: true, port: 5173 },
 });

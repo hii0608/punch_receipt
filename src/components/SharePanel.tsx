@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Group, Segmented } from './Controls';
 import { copyImage, downloadBlob, exportBlob, exportFilename, shareImage, type ExportRatio } from '@/engine/export';
 import { useEditor } from '@/state/editorStore';
@@ -11,6 +11,24 @@ export function SharePanel({ onToast }: { onToast: (message: string) => void }) 
   const [ratio, setRatio] = useState<ExportRatio>('receipt');
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('');
+  const [preview, setPreview] = useState<string | null>(null);
+  const previewRef = useRef<string | null>(null);
+
+  // Some sandboxes (artifact viewers, strict in-app browsers) block downloads a
+  // page starts itself, so the finished image is also shown here to save by hand.
+  const showPreview = (blob: Blob) => {
+    if (previewRef.current) URL.revokeObjectURL(previewRef.current);
+    const url = URL.createObjectURL(blob);
+    previewRef.current = url;
+    setPreview(url);
+  };
+
+  useEffect(
+    () => () => {
+      if (previewRef.current) URL.revokeObjectURL(previewRef.current);
+    },
+    [],
+  );
 
   const run = async (action: 'save' | 'share' | 'copy') => {
     setBusy(true);
@@ -18,6 +36,7 @@ export function SharePanel({ onToast }: { onToast: (message: string) => void }) 
     try {
       const blob = await exportBlob(scene, images, ratio, 3);
       const filename = exportFilename(scene);
+      showPreview(blob);
       if (action === 'copy') {
         const ok = await copyImage(blob);
         onToast(ok ? t.share.copied : t.share.failed);
@@ -63,6 +82,12 @@ export function SharePanel({ onToast }: { onToast: (message: string) => void }) 
         </button>
       </div>
       <p className="status">{status}</p>
+      {preview && (
+        <figure className="share-preview">
+          <img src={preview} alt={scene.text.title} />
+          <figcaption>{t.share.previewHint}</figcaption>
+        </figure>
+      )}
     </Group>
   );
 }

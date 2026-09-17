@@ -22,6 +22,8 @@ export type BackgroundFill =
 export type Stroke = {
   id: string;
   shape: PunchShape;
+  /** false punches every hole at maxSize; true varies it across the range. */
+  randomSize: boolean;
   minSize: number;
   maxSize: number;
   spacing: number; // distance between stamps, as a fraction of average size
@@ -33,6 +35,7 @@ export type Stroke = {
 /** Brush settings used for new strokes (and echoed by the swatch grid block). */
 export type BrushSettings = {
   shape: PunchShape;
+  randomSize: boolean;
   minSize: number;
   maxSize: number;
   spacing: number;

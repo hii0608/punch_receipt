@@ -1,4 +1,4 @@
-import { Group, Slider, Swatches, Toggle } from './Controls';
+import { Group, Segmented, Slider, Swatches, Toggle } from './Controls';
 import { ShapePreview } from './ShapePreview';
 import { PUNCH_SHAPES } from '@/engine/punch';
 import { SOLID_PALETTE } from '@/engine/presets';
@@ -34,21 +34,44 @@ export function PunchPanel() {
         </div>
       </Group>
 
-      <Group title={t.punch.sizeRange}>
-        <Slider
-          label={t.punch.minSize}
-          min={6}
-          max={90}
-          value={brush.minSize}
-          onChange={(v) => setBrush({ minSize: v, maxSize: Math.max(v, brush.maxSize) })}
+      <Group title={t.punch.sizeMode}>
+        <Segmented
+          value={brush.randomSize ? 'random' : 'uniform'}
+          onChange={(mode) => setBrush({ randomSize: mode === 'random' })}
+          options={[
+            { value: 'random' as const, label: t.punch.random },
+            { value: 'uniform' as const, label: t.punch.uniform },
+          ]}
         />
-        <Slider
-          label={t.punch.maxSize}
-          min={6}
-          max={130}
-          value={brush.maxSize}
-          onChange={(v) => setBrush({ maxSize: v, minSize: Math.min(v, brush.minSize) })}
-        />
+        <div style={{ height: 10 }} />
+        {brush.randomSize ? (
+          <>
+            <Slider
+              label={t.punch.minSize}
+              min={6}
+              max={90}
+              value={brush.minSize}
+              onChange={(v) => setBrush({ minSize: v, maxSize: Math.max(v, brush.maxSize) })}
+            />
+            <Slider
+              label={t.punch.maxSize}
+              min={6}
+              max={130}
+              value={brush.maxSize}
+              onChange={(v) => setBrush({ maxSize: v, minSize: Math.min(v, brush.minSize) })}
+            />
+          </>
+        ) : (
+          // Uniform mode punches at maxSize, so the single slider drives it and
+          // the random range is kept intact for when the user switches back.
+          <Slider
+            label={t.punch.size}
+            min={6}
+            max={130}
+            value={brush.maxSize}
+            onChange={(v) => setBrush({ maxSize: v })}
+          />
+        )}
         <Slider
           label={t.punch.spacing}
           min={0.4}

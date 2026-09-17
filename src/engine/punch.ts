@@ -179,7 +179,10 @@ export type Stamp = { x: number; y: number; size: number; rot: number };
 
 export function stampAt(stroke: Stroke, index: number, point: Vec2): Stamp {
   const rand = mulberry32(stroke.seed + index * 7919);
-  const size = stroke.minSize + rand() * Math.max(0, stroke.maxSize - stroke.minSize);
+  const spread = rand();
+  const size = stroke.randomSize
+    ? stroke.minSize + spread * Math.max(0, stroke.maxSize - stroke.minSize)
+    : stroke.maxSize;
   const rot = stroke.shape === 'circle' ? 0 : (rand() - 0.5) * Math.PI * 2 * 0.35;
   const avg = (stroke.minSize + stroke.maxSize) / 2;
   const scatter = stroke.jitter * avg;

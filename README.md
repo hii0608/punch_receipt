@@ -7,7 +7,7 @@ Punch holes through a photo, let a backdrop glow through them, and print the res
 
 ## 기능 (Features)
 
-1. **랜덤 사이즈 펀칭** — 원·사각·별·하트·엄지·반짝·꽃 모양 브러쉬. 스탬프마다 크기·회전·위치가 무작위로 흩어지고, 사진 레이어가 실제로 뚫립니다.
+1. **펀칭** — 원·사각·별·하트·엄지·반짝·꽃 모양 브러쉬. 구멍 크기는 **랜덤**(최소~최대 범위)과 **같은 크기** 중에서 고르고, 간격·흩뿌림을 조절합니다. 사진 레이어가 실제로 뚫립니다.
 2. **글로우** — 뚫린 구멍에서 빛이 번집니다. 세기·번짐·색상 조절, "테두리만 빛나게" 모드, 배경색 자동 추종.
 3. **배경** — 단색 팔레트 / 그라데이션 빌더(선형·방사형, 스톱 2~5개) / 사진 업로드. 구멍으로 드러나는 층입니다.
 4. **영수증** — 감열지 질감, 톱니 가장자리, 점선 구분선, 장식용 바코드, 픽셀 폰트(Galmuri). 제목·날짜·메모·문구를 직접 편집합니다.
@@ -21,6 +21,7 @@ Punch holes through a photo, let a backdrop glow through them, and print the res
 npm install
 npm run dev       # http://localhost:5173
 npm run build     # dist/ 에 PWA 빌드
+npm run build:standalone   # dist-standalone/ 에 서비스워커 없는 정적 번들
 npm run preview
 npm run typecheck
 npm run lint
@@ -32,6 +33,11 @@ npm run smoke
 `npm run smoke` 는 사진 업로드 → 펀칭 → 글로우 → 배경 전환 → 영수증 문구 → 스티커 →
 내보내기 → 새로고침 복구까지 실제로 클릭·드래그하며 스크린샷과 내보낸 PNG를 남깁니다.
 출력 위치는 `SMOKE_OUT`, 접속 주소는 `BASE_URL`, 브라우저는 `CHROMIUM` 환경변수로 바꿀 수 있습니다.
+
+`build:standalone` 은 모든 경로가 상대경로이고 서비스워커가 없는 번들을 만듭니다.
+정적 호스팅이나 샌드박스(미리보기 iframe 등)에 그대로 올릴 때 씁니다. 다만 그런
+샌드박스는 페이지가 시작하는 다운로드를 막는 경우가 있어, 내보낸 이미지는 공유 탭
+아래에 그대로 표시되어 길게 눌러 저장할 수 있게 해 두었습니다.
 
 ## 구조 (Architecture)
 

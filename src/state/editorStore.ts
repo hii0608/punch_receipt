@@ -38,7 +38,7 @@ export function createScene(locale: Locale): Scene {
     background: GRADIENT_PRESETS[4]!.fill,
     photo: { imageId: null, offsetX: 0, offsetY: 0, scale: 1 },
     strokes: [],
-    brush: { shape: 'sparkle', minSize: 16, maxSize: 42, spacing: 1.25, jitter: 0.3 },
+    brush: { shape: 'sparkle', randomSize: true, minSize: 16, maxSize: 42, spacing: 1.25, jitter: 0.3 },
     glow: { enabled: true, color: 'auto', radius: 11, intensity: 0.45, ringOnly: false },
     stickers: [],
     text: {
