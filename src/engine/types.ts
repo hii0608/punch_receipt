@@ -32,6 +32,17 @@ export type Stroke = {
   points: Vec2[];
 };
 
+/** One punched hole, stored after a stroke is committed so it can be moved
+ *  and resized on its own. Coordinates are photo-block local. */
+export type PunchMark = {
+  id: string;
+  shape: PunchShape;
+  x: number;
+  y: number;
+  size: number;
+  rot: number;
+};
+
 /** Brush settings used for new strokes (and echoed by the swatch grid block). */
 export type BrushSettings = {
   shape: PunchShape;
@@ -64,6 +75,8 @@ export type Sticker = {
   rotation: number; // radians
   opacity: number;
   color: string; // tint for builtin stickers, ignored for images
+  /** Knock near-white pixels out of imported images so stamps sit as ink. */
+  knockout?: boolean;
 };
 
 export type PlacedImage = {
@@ -97,6 +110,7 @@ export type Scene = {
   background: BackgroundFill;
   photo: PlacedImage;
   strokes: Stroke[];
+  punches: PunchMark[];
   brush: BrushSettings;
   glow: GlowSettings;
   stickers: Sticker[];
