@@ -51,8 +51,8 @@ export function PunchPanel() {
         />
         <Slider
           label={t.punch.spacing}
-          min={0.25}
-          max={2.5}
+          min={0.4}
+          max={4}
           step={0.05}
           value={brush.spacing}
           format={(v) => v.toFixed(2)}

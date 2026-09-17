@@ -208,8 +208,9 @@ export class StrokeCursor {
 
   advance(stroke: Stroke): Stamp[] {
     const pts = stroke.points;
-    const avg = (stroke.minSize + stroke.maxSize) / 2;
-    const step = Math.max(1, avg * stroke.spacing);
+    // Measured against the largest hole: spacing 1 means the biggest stamps
+    // just touch, so anything above that leaves visible gaps.
+    const step = Math.max(1, stroke.maxSize * stroke.spacing);
     const out: Stamp[] = [];
 
     if (pts.length === 1 && !this.tapped) {
