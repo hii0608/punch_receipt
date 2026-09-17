@@ -1,0 +1,16 @@
+{
+  "appId": "app.punchreceipt",
+  "appName": "Punch Receipt",
+  "webDir": "dist",
+  "backgroundColor": "#efebe3",
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#efebe3"
+  },
+  "android": {
+    "backgroundColor": "#efebe3"
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}
