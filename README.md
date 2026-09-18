@@ -13,35 +13,37 @@
 기본 배경이 인디핑크 그라데이션이라, 구멍이 뚫리면 그 자리로 분홍이 보입니다.
 가운데만 분홍이고 테두리가 하얀 스티커가 아닙니다. 모양 전체가 구멍입니다.
 
+글로우를 켜 두면 구멍 가장자리가 밝게 번져 보일 수 있습니다.
+
 ---
 
 ## 시나리오 (실촤영)
 
 ### 1. 앱을 연다
 
-![home](docs/readme/01-home.jpg)
+![home](01-home.jpg)
 
 ### 2. 사진을 올린다
 
-![photo](docs/readme/02-photo.jpg)
+![photo](02-photo.jpg)
 
 ### 3. 문질러 구멍을 뚫는다
 
-![punch](docs/readme/03-punched.jpg)
+![punch](03-punched.jpg)
 
 ### 4. 구멍 너머 색을 바꾼다
 
-![bg](docs/readme/04-background.jpg)
+![bg](04-background.jpg)
 
 ### 5. 문구를 고친다
 
-![receipt](docs/readme/06-receipt.jpg)
+![receipt](06-receipt.jpg)
 
 ### 6. 스티커를 붙이고 보낸다
 
-![stickers](docs/readme/05-stickers.jpg)
+![stickers](05-stickers.jpg)
 
-![desktop](docs/readme/07-desktop.jpg)
+![desktop](07-desktop.jpg)
 
 ---
 
