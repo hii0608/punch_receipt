@@ -1,8 +1,20 @@
 import { useEffect, useRef } from 'react';
 import { drawShape } from '@/engine/punch';
-import type { PunchShape } from '@/engine/types';
+import type { ImageSource, PunchShape } from '@/engine/types';
 
-export function ShapePreview({ shape, size = 26, color = 'currentColor' }: { shape: PunchShape; size?: number; color?: string }) {
+export function ShapePreview({
+  shape,
+  size = 26,
+  color = 'currentColor',
+  custom,
+  tint = true,
+}: {
+  shape: PunchShape;
+  size?: number;
+  color?: string;
+  custom?: ImageSource | null;
+  tint?: boolean;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -16,8 +28,8 @@ export function ShapePreview({ shape, size = 26, color = 'currentColor' }: { sha
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, size, size);
     const resolved = color === 'currentColor' ? getComputedStyle(canvas).color : color;
-    drawShape(ctx, shape, size / 2, size / 2, size * 0.86, 0, resolved);
-  }, [shape, size, color]);
+    drawShape(ctx, shape, size / 2, size / 2, size * 0.86, 0, tint ? resolved : undefined, custom);
+  }, [shape, size, color, custom, tint]);
 
   return <canvas ref={ref} style={{ width: size, height: size }} aria-hidden />;
 }
