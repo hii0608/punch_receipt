@@ -1,8 +1,21 @@
 /** Receipt-space coordinates. The scene is authored at a fixed width and the
- *  renderer scales it up for export, so every number here is "receipt pixels". */
+ * renderer scales it up for export, so every number here is "receipt pixels". */
 export type Vec2 = { x: number; y: number };
 
-export type PunchShape = 'circle' | 'square' | 'star' | 'heart' | 'thumb' | 'sparkle' | 'flower';
+export type PunchShape =
+  | 'circle'
+  | 'square'
+  | 'star'
+  | 'heart'
+  | 'thumb'
+  | 'sparkle'
+  | 'twinkle'
+  | 'burst'
+  | 'diamond'
+  | 'clover'
+  | 'asterisk'
+  | 'flower'
+  | 'custom';
 
 export type GradientStop = { offset: number; color: string };
 
@@ -11,28 +24,24 @@ export type BackgroundFill =
   | {
       kind: 'gradient';
       type: 'linear' | 'radial';
-      angle: number; // degrees, 0 = left→right
+      angle: number;
       stops: GradientStop[];
     }
   | { kind: 'image'; imageId: string; offsetX: number; offsetY: number; scale: number };
 
-/** A single freehand punch stroke. Stored as raw input points plus the brush
- *  settings and a seed: stamps are re-derived deterministically at any scale,
- *  which is what lets the 1x preview and the 3x export match exactly. */
 export type Stroke = {
   id: string;
   shape: PunchShape;
-  /** false punches every hole at maxSize; true varies it across the range. */
   randomSize: boolean;
   minSize: number;
   maxSize: number;
-  spacing: number; // distance between stamps, as a fraction of average size
-  jitter: number; // perpendicular scatter, as a fraction of average size
+  spacing: number;
+  jitter: number;
   seed: number;
   points: Vec2[];
+  customImageId?: string | null;
 };
 
-/** Brush settings used for new strokes (and echoed by the swatch grid block). */
 export type BrushSettings = {
   shape: PunchShape;
   randomSize: boolean;
@@ -40,11 +49,11 @@ export type BrushSettings = {
   maxSize: number;
   spacing: number;
   jitter: number;
+  customImageId?: string | null;
 };
 
 export type GlowSettings = {
   enabled: boolean;
-  /** 'auto' samples the background so the glow matches what shows through. */
   color: string | 'auto';
   radius: number;
   intensity: number;
@@ -61,9 +70,9 @@ export type Sticker = {
   x: number;
   y: number;
   scale: number;
-  rotation: number; // radians
+  rotation: number;
   opacity: number;
-  color: string; // tint for builtin stickers, ignored for images
+  color: string;
 };
 
 export type PlacedImage = {
@@ -75,7 +84,7 @@ export type PlacedImage = {
 
 export type ReceiptText = {
   title: string;
-  date: string; // ISO yyyy-mm-dd
+  date: string;
   captionLeft: string;
   captionRight: string;
   tagline: string;
@@ -104,9 +113,9 @@ export type Scene = {
   locale: Locale;
   showGrid: boolean;
   showBarcode: boolean;
+  customPunchIds: string[];
 };
 
-/** Bitmaps live outside the scene so the scene itself stays JSON-serializable. */
 export type ImageSource = HTMLImageElement | ImageBitmap | HTMLCanvasElement;
 
 export interface Resources {
