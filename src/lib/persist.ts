@@ -35,13 +35,17 @@ function tx<T>(mode: IDBTransactionMode, run: (store: IDBObjectStore) => IDBRequ
   );
 }
 
-/** Ids the scene actually references, so stale uploads are not persisted. */
 export function referencedImageIds(scene: Scene): string[] {
   const ids = new Set<string>();
   if (scene.photo.imageId) ids.add(scene.photo.imageId);
   if (scene.background.kind === 'image') ids.add(scene.background.imageId);
   for (const sticker of scene.stickers) {
     if (sticker.ref.kind === 'image') ids.add(sticker.ref.imageId);
+  }
+  for (const id of scene.customPunchIds ?? []) ids.add(id);
+  if (scene.brush.customImageId) ids.add(scene.brush.customImageId);
+  for (const stroke of scene.strokes) {
+    if (stroke.customImageId) ids.add(stroke.customImageId);
   }
   return [...ids];
 }
